@@ -34,9 +34,9 @@ def set_properties(project):
     project.get_property("filter_resources_glob").append("**/gitpage/__init__.py")
 
     project.get_property('copy_resources_glob').append(
-        'src/main/python/templates/*')
+        'src/main/python/gitpage/templates/*')
     project.set_property('copy_resources_target', '$dir_dist')
 
-    for template in os.listdir(os.path.join('src/main/python/templates/')):
+    for template in os.listdir(os.path.join('src/main/python/gitpage/templates/')):
         project.install_file('lib/python2.7/site-packages/gitpage/templates',
-                             'templates/{0}'.format(template))
+                             'gitpage/templates/{0}'.format(template))
