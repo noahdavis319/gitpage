@@ -2,7 +2,7 @@
 from flask import Flask, render_template
 from services import Index
 
-application = Flask(__name__, template_folder='gitpage/templates')
+application = Flask(__name__)
 application.debug = True
 
 service = Index()
