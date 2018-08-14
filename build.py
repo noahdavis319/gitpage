@@ -20,8 +20,8 @@ default_task = 'publish'
 
 @init
 def set_properties(project):
-    project.build_depends_on('service')
-    project.depends_on('flask')
+    project.build_depends_on('pygit2')
+    project.build_depends_on('flask')
 
     project.set_property('coverage_threshold_warn', 85)
     project.set_property('coverage_branch_threshold_warn', 85)
