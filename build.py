@@ -51,8 +51,28 @@ def set_properties(project):
                              'gitpage/templates/{0}'.format(template))
 
 
+@pyb.task(description='Downloads and installs the libgit2 library before pygit2 is '
+                      'installed since libgit2 is a dependency.')
+def install_libgit2(project, logger):
+    """
+    Download and install libgit2 which is required for pygit2 to successfully install.
+    """
+    logger.info('Installing libgit2')
+    run(project, logger, 'install_libgit2',
+        """cd {0}
+        export LIBGIT2=$VIRTUAL_ENV
+        wget https://github.com/libgit2/libgit2/archive/v0.27.0.tar.gz
+        tar xzf v0.27.0.tar.gz
+        cd libgit2-0.27.0/
+        cmake . -DCMAKE_INSTALL_PREFIX=$LIBGIT2
+        make
+        make install
+        """.format(project.expand('$dir_dist/dist')))
+
+
 @pyb.task()
-def install_libgit2():
+@pyb.depends('install_libgit2')
+def install_dependencies():
     pass
 
 
