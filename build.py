@@ -51,25 +51,7 @@ def set_properties(project):
                              'gitpage/templates/{0}'.format(template))
 
 
-@pyb.task(description='Downloads and installs CMake.')
-@pyb.before('install_libgit2')
-def install_cmake(project, logger):
-    """
-    Downloads and installs CMake to build libgit2.
-    """
-    logger.info('Installing CMake')
-    run(project, logger, 'install_cmake',
-        """cd {0}
-        wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz
-        tar xzf cmake-3.12.1.tar.gz
-        cd cmake-3.12.1/
-        ./bootstrap && make && make install
-        """.format(project.expand('$dir_dist/dist')))
-    pass
-
-
 @pyb.task(description='Downloads and installs the libgit2 library.')
-@pyb.depends('install_cmake')
 @pyb.before('install_pygit2')
 def install_libgit2(project, logger):
     """
