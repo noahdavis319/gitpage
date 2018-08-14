@@ -1,27 +1,27 @@
 
 import os
-from pybuilder.core import use_plugin, init
+import pybuilder.core as pyb
 
 
-use_plugin('python.core')
-use_plugin('python.unittest')
-use_plugin('python.install_dependencies')
-use_plugin('python.flake8')
-use_plugin('python.coverage')
-use_plugin('python.distutils')
-use_plugin('python.pycharm')
+pyb.use_plugin('python.core')
+pyb.use_plugin('python.unittest')
+pyb.use_plugin('python.install_dependencies')
+pyb.use_plugin('python.flake8')
+pyb.use_plugin('python.coverage')
+pyb.use_plugin('python.distutils')
+pyb.use_plugin('python.pycharm')
 
-use_plugin("filter_resources")
-use_plugin('copy_resources')
+pyb.use_plugin("filter_resources")
+pyb.use_plugin('copy_resources')
 
 name = 'gitpage'
 default_task = 'publish'
 
 
-@init
+@pyb.init
 def set_properties(project):
-    project.build_depends_on('pygit2')
-    project.build_depends_on('flask')
+    project.depends_on('pygit2')
+    project.depends_on('flask')
 
     project.set_property('coverage_threshold_warn', 85)
     project.set_property('coverage_branch_threshold_warn', 85)
