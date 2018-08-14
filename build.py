@@ -20,6 +20,12 @@ default_task = 'publish'
 
 @pyb.init
 def set_properties(project):
+    project.authors = [pyb.Author('Noah Davis', 'noahdavis319@gmail.com')]
+    project.summary = 'GitPage - A Python-based Git web-app.'
+    project.description = ('GitPage is a Python-based Git web-app that uses pygit2 and '
+                           'Flask to provided a web interface similar to GitHub, GitLab, '
+                           'BitBucket, and more!')
+
     project.depends_on('pygit2')
     project.depends_on('flask')
 
