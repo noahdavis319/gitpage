@@ -83,7 +83,6 @@ def install_pygit2(project, logger):
         """export LDFLAGS="-Wl,-rpath=$VIRTUAL_ENV/lib,--enable-new-dtags $LDFLAGS"
         pip install pygit2
         """)
-    pass
 
 
 @pyb.task()
