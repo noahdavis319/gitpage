@@ -53,6 +53,7 @@ def set_properties(project):
 
 @pyb.task(description='Downloads and installs the libgit2 library before pygit2 is '
                       'installed since libgit2 is a dependency.')
+@pyb.before('install_pygit2')
 def install_libgit2(project, logger):
     """
     Download and install libgit2 which is required for pygit2 to successfully install.
@@ -73,7 +74,16 @@ def install_libgit2(project, logger):
 @pyb.task(description='Install pygit2 manually due to being installed into a virtual '
                       'environment.')
 @pyb.depends('install_libgit2')
+@pyb.before('install_dependencies')
 def install_pygit2(project, logger):
+    """
+    Install the pygit2 library using pip and setting installation environment variables.
+    """
+    logger.info('Installing pygit2')
+    run(project, logger, 'install_pygit2',
+        """export LDFLAGS="-Wl,-rpath='$LIBGIT2/lib',--enable-new-dtags $LDFLAGS"
+        pip install pygit2
+        """)
     pass
 
 
