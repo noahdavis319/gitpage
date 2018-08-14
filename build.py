@@ -61,7 +61,7 @@ def install_libgit2(project, logger):
     run(project, logger, 'install_libgit2',
         """cd {0}
         export LIBGIT2=$VIRTUAL_ENV
-        wget https://github.com/libgit2/libgit2/archive/v0.27.0.tar.gz
+        wget --no-clobber https://github.com/libgit2/libgit2/archive/v0.27.0.tar.gz
         tar xzf v0.27.0.tar.gz
         cd libgit2-0.27.0/
         cmake . -DCMAKE_INSTALL_PREFIX=$LIBGIT2
