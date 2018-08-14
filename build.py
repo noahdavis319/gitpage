@@ -51,14 +51,23 @@ def set_properties(project):
                              'gitpage/templates/{0}'.format(template))
 
 
-@pyb.task(description='Downloads and installs CMake to build libgit2.')
+@pyb.task(description='Downloads and installs CMake.')
 @pyb.before('install_libgit2')
 def install_cmake(project, logger):
+    """
+    Downloads and installs CMake to build libgit2.
+    """
+    logger.info('Installing CMake')
+    run(project, logger, 'install_cmake',
+        """wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz
+        tar xzf cmake-3.12.1.tar.gz
+        cd cmake-3.12.1.tar.gz
+        ./bootstrap && make && make install
+        """)
     pass
 
 
-@pyb.task(description='Downloads and installs the libgit2 library before pygit2 is '
-                      'installed since libgit2 is a dependency.')
+@pyb.task(description='Downloads and installs the libgit2 library.')
 @pyb.depends('install_cmake')
 @pyb.before('install_pygit2')
 def install_libgit2(project, logger):
@@ -78,8 +87,8 @@ def install_libgit2(project, logger):
         """.format(project.expand('$dir_dist/dist')))
 
 
-@pyb.task(description='Install pygit2 manually due to being installed into a virtual '
-                      'environment.')
+@pyb.task(description='Downloads and installs pygit2 manually due to being installed '
+                      'into a virtual environment.')
 @pyb.depends('install_libgit2')
 @pyb.before('install_dependencies')
 def install_pygit2(project, logger):
@@ -97,6 +106,12 @@ def install_pygit2(project, logger):
 @pyb.task()
 @pyb.depends('install_pygit2')
 def install_dependencies():
+    pass
+
+
+@pyb.task()
+@pyb.depends('install_dependencies')
+def prepare():
     pass
 
 
