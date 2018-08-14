@@ -80,8 +80,7 @@ def install_pygit2(project, logger):
     """
     logger.info('Installing pygit2')
     run(project, logger, 'install_pygit2',
-        """
-        export LDFLAGS="-Wl,-rpath=$VIRTUAL_ENV/lib,--enable-new-dtags $LDFLAGS"
+        """export LDFLAGS="-Wl,-rpath=$VIRTUAL_ENV/lib,--enable-new-dtags $LDFLAGS"
         pip install pygit2
         """)
     pass
