@@ -70,8 +70,15 @@ def install_libgit2(project, logger):
         """.format(project.expand('$dir_dist/dist')))
 
 
-@pyb.task()
+@pyb.task(description='Install pygit2 manually due to being installed into a virtual '
+                      'environment.')
 @pyb.depends('install_libgit2')
+def install_pygit2(project, logger):
+    pass
+
+
+@pyb.task()
+@pyb.depends('install_pygit2')
 def install_dependencies():
     pass
 
