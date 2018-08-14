@@ -6,3 +6,4 @@ GitPage is a Python-based Git web-app that uses pygit2 and Flask to provided a w
 * cmake
 * libcurl-devel
 * openssl-devel
+* python-devel
