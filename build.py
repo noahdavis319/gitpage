@@ -59,11 +59,12 @@ def install_cmake(project, logger):
     """
     logger.info('Installing CMake')
     run(project, logger, 'install_cmake',
-        """wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz
+        """cd {0}
+        wget https://cmake.org/files/v3.12/cmake-3.12.1.tar.gz
         tar xzf cmake-3.12.1.tar.gz
-        cd cmake-3.12.1.tar.gz
+        cd cmake-3.12.1/
         ./bootstrap && make && make install
-        """)
+        """.format(project.expand('$dir_dist/dist')))
     pass
 
 
@@ -112,6 +113,11 @@ def install_dependencies():
 @pyb.task()
 @pyb.depends('install_dependencies')
 def prepare():
+    pass
+
+
+@pyb.task()
+def clean(project):
     pass
 
 
