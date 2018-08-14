@@ -51,8 +51,15 @@ def set_properties(project):
                              'gitpage/templates/{0}'.format(template))
 
 
+@pyb.task(description='Downloads and installs CMake to build libgit2.')
+@pyb.before('install_libgit2')
+def install_cmake(project, logger):
+    pass
+
+
 @pyb.task(description='Downloads and installs the libgit2 library before pygit2 is '
                       'installed since libgit2 is a dependency.')
+@pyb.depends('install_cmake')
 @pyb.before('install_pygit2')
 def install_libgit2(project, logger):
     """
