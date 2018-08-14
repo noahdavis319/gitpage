@@ -1,6 +1,9 @@
 
 import os
+import subprocess
+
 import pybuilder.core as pyb
+import pybuilder.utils
 
 
 pyb.use_plugin('python.core')
@@ -46,3 +49,26 @@ def set_properties(project):
     for template in os.listdir(os.path.join('src/main/python/gitpage/templates/')):
         project.install_file('lib/python2.7/site-packages/gitpage/templates',
                              'gitpage/templates/{0}'.format(template))
+
+
+@pyb.task()
+def install_libgit2():
+    pass
+
+
+def run(project, logger, name, command):
+    """
+    Run a command in a shell during a PyBuilder task saving the stdout and stderr to log
+    files. If the command has a non-zero return code then this method raises an exception.
+    """
+    dir_logs = project.expand('$dir_logs')
+    pybuilder.utils.mkdir(dir_logs)
+    out_file = os.path.join(dir_logs, '{0}.log'.format(name))
+    err_file = os.path.join(dir_logs, '{0}.err'.format(name))
+    with open(out_file, 'w') as out:
+        with open(err_file, 'w') as err:
+            retcode = subprocess.call(command, shell=True, stdout=out, stderr=err)
+            if retcode:
+                logger.error("{2} failed. See {0} and {1} for details."
+                             .format(out_file, err_file, name))
+                raise Exception("{0} Failed".format(name))
