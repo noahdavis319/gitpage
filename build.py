@@ -35,9 +35,6 @@ def set_properties(project):
     project.set_property('coverage_branch_threshold_warn', 85)
     project.set_property('coverage_branch_partial_threshold_warn', 85)
     project.set_property('coverage_break_build', False)
-    project.get_property('coverage_exceptions').append('cli')
-
-    project.set_property('distutils_console_scripts', ['gitpage = gitpage.cli:cli'])
 
     project.get_property("filter_resources_glob").append("**/gitpage/__init__.py")
 
