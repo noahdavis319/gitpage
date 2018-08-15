@@ -9,12 +9,11 @@ import pybuilder.utils
 pyb.use_plugin('python.core')
 pyb.use_plugin('python.unittest')
 pyb.use_plugin('python.install_dependencies')
-pyb.use_plugin('python.flake8')
 pyb.use_plugin('python.coverage')
 pyb.use_plugin('python.distutils')
 pyb.use_plugin('python.pycharm')
 
-pyb.use_plugin("filter_resources")
+pyb.use_plugin('filter_resources')
 pyb.use_plugin('copy_resources')
 
 name = 'gitpage'
@@ -42,24 +41,16 @@ def set_properties(project):
 
     project.get_property("filter_resources_glob").append("**/gitpage/__init__.py")
 
-    project.get_property('copy_resources_glob').append(
-        'src/main/python/gitpage/templates/*')
-    project.set_property('copy_resources_target', '$dir_dist')
-
-    for template in os.listdir(os.path.join('src/main/python/gitpage/templates/')):
-        project.install_file('lib/python2.7/site-packages/gitpage/templates',
-                             'gitpage/templates/{0}'.format(template))
+    project.include_file('gitpage', 'resources/templates/*')
 
 
 @pyb.task(description='Downloads and installs the libgit2 library.')
-@pyb.before('install_pygit2')
 def install_libgit2(project, logger):
     """
     Download and install libgit2 which is required for pygit2 to successfully install.
     """
     logger.info('Installing libgit2')
-    run(project, logger, 'install_libgit2',
-        """cd {0}
+    cmd = """cd {0}
         export LIBGIT2=$VIRTUAL_ENV
         wget --no-clobber https://github.com/libgit2/libgit2/archive/v0.27.0.tar.gz
         tar xzf v0.27.0.tar.gz
@@ -67,12 +58,14 @@ def install_libgit2(project, logger):
         cmake . -DCMAKE_INSTALL_PREFIX=$LIBGIT2
         make
         make install
-        """.format(project.expand('$dir_dist/dist')))
+        rm -rf libgit2-0.27.0/
+        """.format(project.expand('$dir_dist/dist'))
+    run(project, logger, 'install_libgit2',
+        cmd)
 
 
 @pyb.task(description='Downloads and installs pygit2 manually due to being installed '
                       'into a virtual environment.')
-@pyb.depends('install_libgit2')
 @pyb.before('install_dependencies')
 def install_pygit2(project, logger):
     """
@@ -94,11 +87,6 @@ def install_dependencies():
 @pyb.task()
 @pyb.depends('install_dependencies')
 def prepare():
-    pass
-
-
-@pyb.task()
-def clean(project):
     pass
 
 
