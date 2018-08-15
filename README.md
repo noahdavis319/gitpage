@@ -31,7 +31,7 @@ There are two methods for getting `libgit2`.
 1. Using GitPage's built in `install_libgit2` pybuilder task which will install `libgit2`
 within the virtual environment. GitPage currently installs `libgit2 v0.27.0`.
 2. Manually install the latest version of `libgit2` to the virtual environment.
-See [Installing libgit2 in a Virtual Environment](#Installing libgit2 in a Virtual Environment)
+See [Installing libgit2 in a Virtual Environment](#installing-libgit2-in-a-virtual-environment)
 
 ##### Installing libgit2 in a Virtual Environment
 You can download and install `libgit2` by running the follow series of commands.  You will
