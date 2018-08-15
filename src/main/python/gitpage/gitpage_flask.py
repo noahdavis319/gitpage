@@ -2,16 +2,20 @@
 from flask import Flask, render_template
 from services import Index
 
-application = Flask(__name__, template_folder='resources/templates/')
-application.debug = True
+app = Flask(__name__, template_folder='resources/templates/')
+app.debug = True
 
 service = Index()
 
 
 def start_flask():
-    application.run()
+    app.run()
 
 
-@application.route('/')
+@app.route('/')
 def index():
     return render_template('index.html', title=service.get_title())
+
+
+if __name__ == '__main__':
+    app.run('0.0.0.0')
