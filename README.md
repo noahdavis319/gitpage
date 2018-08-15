@@ -60,5 +60,4 @@ pyb -v install
 ```
 
 #### Using GitPage
-To use GitPage call the `gitpage` command and read through the different commands
-available.
+TODO
