@@ -8,10 +8,6 @@ app.debug = True
 service = Index()
 
 
-def start_flask():
-    app.run()
-
-
 @app.route('/')
 def index():
     return render_template('index.html', title=service.get_title())
