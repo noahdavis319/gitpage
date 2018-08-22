@@ -1,0 +1,45 @@
+#!/usr/bin/python
+
+import os
+import sys
+import shlex
+import subprocess
+
+
+# store the original SSH command into an easy to access variable
+ssh_cmd = os.getenv('SSH_ORIGINAL_COMMAND')
+
+# ssh_cmd will be none if no command was attempted (interactive login)
+if ssh_cmd is not None:
+
+    # check if the SSH command= configuration item passed along a username
+    if len(sys.argv) == 2:
+        
+        # store the username to a variable
+        cmd_user = sys.argv[1]
+
+        # create a list of acceptable git-* commands that can be ran from the `git` user
+        git_cmds = ['git-receive-pack', 'git-upload-pack', 'git-upload-archive']
+        
+        # parse the passed in original SSH command
+        # 0: command to run
+        # 1: path to repo
+        cmd_parts = shlex.split(ssh_cmd)
+        
+        # check if the command attempted to be ran is acceptable
+        if cmd_parts[0] in git_cmds:
+            # execute the command that was passed in
+            proc = subprocess.Popen(cmd_parts, shell=False)
+            proc.communicate()
+        else:
+            # they tried to run a command that wasn't approved! silly them
+            print 'Invalid command provided'
+    else:
+        # somehow SSH passed an original command but that user was not registered in the
+        # authorized_keys files to have a username, or this script was called without a
+        # username being passed to it...so herein lies the question:
+        print 'who the *heck* are you?'
+else:
+    # return a message explaining how interactive shell login is disabled...blah blah blah
+    print 'SSH login disabled'
+
