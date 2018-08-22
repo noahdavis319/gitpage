@@ -21,8 +21,8 @@ GitPage has a few dependencies that must be installed before building.
 * cmake
 * libcurl-devel
 * openssh-devel
-* python-devel
 * libgit2 (see further below)
+* python-devel
 
 #### Installing libgit2
 
